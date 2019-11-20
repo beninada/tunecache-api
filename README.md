@@ -15,7 +15,7 @@ Install the API
 docker exec -it tunecache_workspace_1 /bin/bash
 
 # Then execute the following in the container
-cp env.example .env
+cp env-example .env
 composer install
 php artisan migrate
 php artisan db:seed
