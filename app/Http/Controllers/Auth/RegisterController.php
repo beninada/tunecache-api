@@ -69,13 +69,13 @@ class RegisterController extends Controller
                 Newsletter::subscribe($user->email, ['UNAME' => $user->username]);
                 Newsletter::addTags([$data['role']], $user->email);
             }
+
+            // send the user an email after registration
+            Mail::to($user)->send(new UserRegistered());
         } catch (\Exception $e) {
             \Log::error('User creation failure: ' . $e);
             return response(['errors' => [$e->getMessage()]], 500);
         }
-
-        // send the user an email after registration
-        Mail::to($user)->send(new UserRegistered());
 
         return $user;
     }
