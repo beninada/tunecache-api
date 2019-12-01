@@ -11,8 +11,4 @@
 |
 */
 
-Route::get('/{vue?}', function () {
-    return view('index');
-})->where('vue', '^(?!api).*$');
-
-Auth::routes();
+// Auth::routes();
