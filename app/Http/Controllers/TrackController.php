@@ -44,7 +44,7 @@ class TrackController extends Controller
             $uuid = (string) Str::uuid();
 
             // Upload the file to S3 with uuid as name
-            $s3->put($uuid, file_get_contents($file), 'public');
+            $s3->put('tracks/'.$uuid, file_get_contents($file), 'public');
 
             // Store the track in local database
             $tracks[] = Track::create([
