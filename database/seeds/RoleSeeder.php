@@ -8,8 +8,8 @@ use Spatie\Permission\Models\Role;
 class RoleSeeder extends Seeder {
     public function run()
     {
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'artist']);
-        Role::create(['name' => 'customer']);
+        Role::firstOrCreate(['name' => 'admin']);
+        Role::firstOrCreate(['name' => 'artist']);
+        Role::firstOrCreate(['name' => 'customer']);
     }
 }
