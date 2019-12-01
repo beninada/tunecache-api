@@ -36,8 +36,15 @@ MAILCHIMP_LIST_ID=
 
 AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
+AWS_S3_ADMIN_ACCESS_KEY_ID=
+AWS_S3_ADMIN_SECRET_ACCESS_KEY=
 AWS_DEFAULT_REGION=us-west-2
-AWS_BUCKET=dev-tunecache-images
+AWS_DEFAULT_BUCKET=tunecache-default-dev
+AWS_DEFAULT_CDN_URL=https://cdn-dev.tunecache.com
+AWS_IMAGE_BUCKET=tunecache-images-dev
+AWS_IMAGE_CDN_URL=https://cdn-dev.tunecache.com/images
+AWS_TRACK_BUCKET=tunecache-tracks-dev
+AWS_TRACK_CDN_URL=https://cdn-dev.tunecache.com/tracks
 
 PUSHER_APP_ID=
 PUSHER_APP_KEY=

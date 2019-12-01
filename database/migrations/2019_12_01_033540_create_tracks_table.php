@@ -16,11 +16,11 @@ class CreateTracksTable extends Migration
         Schema::create('tracks', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->unique();
-            $table->string('name');
-            $table->string('uri');
-            $table->text('description');
-            $table->float('bpm', 4, 2);
-            $table->string('key');
+            $table->string('name')->nullable();
+            $table->string('uri')->nullable();
+            $table->text('description')->nullable();
+            $table->float('bpm', 4, 2)->nullable();
+            $table->string('key')->nullable();
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
