@@ -39,7 +39,7 @@ Route::prefix('v1')->group(function () {
         Route::match(['put', 'patch'], 'users/artists/{user_id}/profile', 'UserController@updateArtistProfile');
         Route::post('users/{user_id}/images', 'UserController@uploadImage');
 
-        Route::post('tracks', 'TrackController@store');
         Route::post('tracks/upload', 'TrackController@upload');
+        Route::match(['put', 'patch'], 'TrackController@update');
     });
 });

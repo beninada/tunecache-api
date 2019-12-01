@@ -10,20 +10,27 @@ use App\Models\Track;
 
 class TrackController extends Controller
 {
-    protected function validator(array $data)
+    protected function uploadValidator(array $data)
     {
         return Validator::make($data, [
             'tracks' => ['required'],
         ]);
     }
 
-    public function store(Request $request)
+    protected function updateValidator(array $data)
     {
+        return Validator::make($data, [
+            'uuid' => ['required', 'exists:tracks'],
+            'title' => ['required', 'string'],
+            'bpm' => ['numeric'],
+            'key' => ['string'],
+            'description' => ['string'],
+        ]);
     }
 
     public function upload(Request $request)
     {
-        $validator = $this->validator($request->all());
+        $validator = $this->uploadValidator($request->all());
 
         if ($validator->fails()) {
             return response(['errors' => $validator->errors()->all()], 422);
@@ -47,5 +54,26 @@ class TrackController extends Controller
         }
 
         return $tracks;
+    }
+
+    public function update(Request $request)
+    {
+        $validator = $this->updateValidator($request->all());
+
+        if ($validator->fails()) {
+            return response(['errors' => $validator->errors()->all()], 422);
+        }
+
+        $track = Track::where('uuid', $request->uuid)->first();
+
+        $track->update([
+            'title' => $request->title,
+            'uri' => Str::slug($request->title, '-'),
+            'bpm' => $request->bpm,
+            'key' => $request->key,
+            'description' => $request->description,
+        ]);
+
+        return $track;
     }
 }
