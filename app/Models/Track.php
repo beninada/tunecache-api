@@ -29,6 +29,26 @@ class Track extends Model
      */
     protected $appends = ['url'];
 
+    public static $musicalKeys = [
+        'C',
+        'Db',
+        'D',
+        'Eb',
+        'E',
+        'F',
+        'Gb',
+        'G',
+        'Ab',
+        'A',
+        'Bb',
+        'B',
+    ];
+
+    public static $musicalScales = [
+        'major',
+        'minor',
+    ];
+
     public function genres()
     {
         return $this->belongsToMany('App\Models\Genre', 'track_genre');

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use App\Models\Track;
 
 class TrackController extends Controller
@@ -59,7 +60,8 @@ class TrackController extends Controller
             'uuid' => ['required', 'exists:tracks'],
             'title' => ['required', 'string'],
             'bpm' => ['numeric'],
-            'key' => ['string'],
+            'key' => ['string', Rule::in(Track::$musicalKeys)],
+            'scale' => ['string', Rule::in(Track::$musicalScales)],
             'description' => ['string'],
         ]);
 
@@ -74,6 +76,7 @@ class TrackController extends Controller
             'uri' => Str::slug($request->title, '-'),
             'bpm' => $request->bpm,
             'key' => $request->key,
+            'scale' => $request->scale,
             'description' => $request->description,
         ]);
 
