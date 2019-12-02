@@ -71,14 +71,13 @@ class TrackController extends Controller
 
         $track = Track::where('uuid', $request->uuid)->first();
 
-        $track->update([
-            'title' => $request->title,
-            'uri' => Str::slug($request->title, '-'),
-            'bpm' => $request->bpm,
-            'key' => $request->key,
-            'scale' => $request->scale,
-            'description' => $request->description,
-        ]);
+        $track->title = $request->title;
+        $track->uri = Str::slug($request->title, '-');
+        $track->bpm = $request->bpm;
+        $track->key = $request->key;
+        $track->scale = $request->scale;
+        $track->description = $request->description;
+        $track->save();
 
         return $track;
     }
