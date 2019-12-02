@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'cloud' => env('FILESYSTEM_CLOUD', 's3_images'),
+    'cloud' => env('FILESYSTEM_CLOUD', 's3_default'),
 
     /*
     |--------------------------------------------------------------------------
@@ -55,13 +55,31 @@ return [
             'visibility' => 'public',
         ],
 
+        's3_default' => [
+            'driver' => 's3',
+            'key' => env('AWS_S3_ADMIN_ACCESS_KEY_ID'),
+            'secret' => env('AWS_S3_ADMIN_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('AWS_DEFAULT_BUCKET'),
+            'url' => env('AWS_DEFAULT_CDN_URL'),
+        ],
+
         's3_images' => [
             'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'key' => env('AWS_S3_ADMIN_ACCESS_KEY_ID'),
+            'secret' => env('AWS_S3_ADMIN_SECRET_ACCESS_KEY'),
             'region' => env('AWS_DEFAULT_REGION'),
             'bucket' => env('AWS_IMAGE_BUCKET'),
-            'url' => env('AWS_URL'),
+            'url' => env('AWS_IMAGE_CDN_URL'),
+        ],
+
+        's3_tracks' => [
+            'driver' => 's3',
+            'key' => env('AWS_S3_ADMIN_ACCESS_KEY_ID'),
+            'secret' => env('AWS_S3_ADMIN_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('AWS_TRACK_BUCKET'),
+            'url' => env('AWS_TRACK_CDN_URL'),
         ],
 
     ],

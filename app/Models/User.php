@@ -68,4 +68,9 @@ class User extends Authenticatable
     {
         return $this->morphTo();
     }
+
+    public function tracks()
+    {
+        return $this->hasMany('App\Models\Track');
+    }
 }
