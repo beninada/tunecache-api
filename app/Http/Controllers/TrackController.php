@@ -41,17 +41,19 @@ class TrackController extends Controller
         return $tracks;
     }
 
-    public function getOne(Request $request)
+    public function get()
     {
-        $validator = Validator::make($request->all(), [
-            'uuid' => ['required', 'exists:tracks'],
-        ]);
+    }
 
-        if ($validator->fails()) {
-            return response(['errors' => $validator->errors()->all()], 422);
+    public function getOne(Request $request, $uuid)
+    {
+        $track = Track::where('uuid', $uuid)->first();
+
+        if (!$track) {
+            return response(['errors' => ['Track not found.']], 422);
         }
 
-        return Track::where('uuid', $request->uuid)->first();
+        return $track;
     }
 
     public function update(Request $request)
