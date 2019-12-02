@@ -10,27 +10,11 @@ use App\Models\Track;
 
 class TrackController extends Controller
 {
-    protected function uploadValidator(array $data)
-    {
-        return Validator::make($data, [
-            'tracks' => ['required'],
-        ]);
-    }
-
-    protected function updateValidator(array $data)
-    {
-        return Validator::make($data, [
-            'uuid' => ['required', 'exists:tracks'],
-            'title' => ['required', 'string'],
-            'bpm' => ['numeric'],
-            'key' => ['string'],
-            'description' => ['string'],
-        ]);
-    }
-
     public function upload(Request $request)
     {
-        $validator = $this->uploadValidator($request->all());
+        $validator = Validator::make($request->all(), [
+            'tracks' => ['required'],
+        ]);
 
         if ($validator->fails()) {
             return response(['errors' => $validator->errors()->all()], 422);
@@ -56,9 +40,28 @@ class TrackController extends Controller
         return $tracks;
     }
 
+    public function getOne(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'uuid' => ['required', 'exists:tracks'],
+        ]);
+
+        if ($validator->fails()) {
+            return response(['errors' => $validator->errors()->all()], 422);
+        }
+
+        return Track::where('uuid', $request->uuid)->first();
+    }
+
     public function update(Request $request)
     {
-        $validator = $this->updateValidator($request->all());
+        $validator = Validator::make($request->all(), [
+            'uuid' => ['required', 'exists:tracks'],
+            'title' => ['required', 'string'],
+            'bpm' => ['numeric'],
+            'key' => ['string'],
+            'description' => ['string'],
+        ]);
 
         if ($validator->fails()) {
             return response(['errors' => $validator->errors()->all()], 422);

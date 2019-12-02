@@ -21,6 +21,7 @@ Route::prefix('v1')->group(function () {
     Route::get('users', 'UserController@index');
     Route::post('password/forgot', 'Auth\ForgotPasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+    Route::get('tracks', 'TrackController@getOne');
 
     /**
      * Authenticated routes
