@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Scout\Searchable;
 
 class Track extends Model
 {
+    use Searchable;
+
     /**
      * The attributes that are mass assignable.
      *

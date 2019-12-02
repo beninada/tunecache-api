@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3.11",
+        "algolia/scout-extended": "^1.8",
         "barryvdh/laravel-cors": "^0.11.3",
         "doctrine/dbal": "^2.9",
         "fideloper/proxy": "^4.0",
