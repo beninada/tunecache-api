@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Track extends Model
 {
@@ -21,6 +22,13 @@ class Track extends Model
         'key',
     ];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['url'];
+
     public function genres()
     {
         return $this->belongsToMany('App\Models\Genre', 'track_genre');
@@ -34,5 +42,10 @@ class Track extends Model
     public function user()
     {
         return $this->belongsTo('App\Models\User');
+    }
+
+    public function getUrlAttribute()
+    {
+        return Storage::cloud()->url('track/'.$this->uuid);
     }
 }
