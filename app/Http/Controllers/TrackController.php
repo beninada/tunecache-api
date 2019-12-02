@@ -25,17 +25,22 @@ class TrackController extends Controller
         $s3 = Storage::disk('s3_tracks');
         $tracks = [];
 
-        foreach ($files as $file) {
-            $uuid = (string) Str::uuid();
+        try {
+            foreach ($files as $file) {
+                $uuid = (string) Str::uuid();
 
-            // Upload the file to S3 with uuid as name
-            $s3->put('tracks/'.$uuid, file_get_contents($file), 'public');
+                // Upload the file to S3 with uuid as name
+                $s3->put('tracks/'.$uuid, file_get_contents($file), 'public');
 
-            // Store the track in local database
-            $tracks[] = Track::create([
-                'uuid' => $uuid,
-                'user_id' => $request->user_id,
-            ]);
+                // Store the track in local database
+                $tracks[] = Track::create([
+                    'uuid' => $uuid,
+                    'user_id' => $request->user_id,
+                ]);
+            }
+        } catch (\Exception $e) {
+            \Log::error('Track(s) upload failure: ' . $e);
+            return response(['errors' => [$e->getMessage()]], 500);
         }
 
         return $tracks;
