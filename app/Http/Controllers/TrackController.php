@@ -41,8 +41,15 @@ class TrackController extends Controller
         return $tracks;
     }
 
-    public function get()
+    public function get(Request $request)
     {
+        $tracks = Track::where('user_id', $request->all()['user_id'])->get();
+
+        if (!$tracks) {
+            return [];
+        }
+
+        return $tracks;
     }
 
     public function getOne(Request $request, $uuid)
@@ -83,5 +90,10 @@ class TrackController extends Controller
         ]);
 
         return $track;
+    }
+
+    public function getTracks(array $data)
+    {
+        return Track::where('user_id', $data->user_id);
     }
 }
