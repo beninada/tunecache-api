@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\Track;
+use App\Models\User;
 
 class TrackController extends Controller
 {
@@ -43,7 +44,7 @@ class TrackController extends Controller
 
     public function get(Request $request)
     {
-        $tracks = Track::where('user_id', $request->user_id)->get();
+        $tracks = User::where('id', $request->user_id)->first()->tracks;
 
         if (!$tracks) {
             return [];
@@ -90,10 +91,5 @@ class TrackController extends Controller
         ]);
 
         return $track;
-    }
-
-    public function getTracks(array $data)
-    {
-        return Track::where('user_id', $data->user_id);
     }
 }
