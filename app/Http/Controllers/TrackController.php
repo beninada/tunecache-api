@@ -44,7 +44,8 @@ class TrackController extends Controller
 
     public function get(Request $request)
     {
-        $tracks = User::where('id', $request->user_id)->first()->tracks;
+        $user = User::findOrFail($request->user_id);
+        $tracks = $user->tracks;
 
         if (!$tracks) {
             return [];
