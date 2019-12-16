@@ -49,7 +49,8 @@ class TrackController extends Controller
 
     public function get(Request $request)
     {
-        $tracks = User::where('id', $request->user_id)->first()->tracks;
+        $user = User::findOrFail($request->user_id);
+        $tracks = $user->tracks;
 
         if (!$tracks) {
             return [];
@@ -63,7 +64,7 @@ class TrackController extends Controller
         $track = Track::where('uuid', $uuid)->first();
 
         if (!$track) {
-            return response(['errors' => ['Track not found.']], 422);
+            return response(['errors' => ['Track not found.']], 404);
         }
 
         return $track;
