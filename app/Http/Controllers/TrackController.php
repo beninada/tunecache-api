@@ -58,7 +58,7 @@ class TrackController extends Controller
         $track = Track::where('uuid', $uuid)->first();
 
         if (!$track) {
-            return response(['errors' => ['Track not found.']], 422);
+            return response(['errors' => ['Track not found.']], 404);
         }
 
         return $track;
