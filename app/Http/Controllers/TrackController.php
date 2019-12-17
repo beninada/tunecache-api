@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\Track;
+use App\Models\User;
 
 class TrackController extends Controller
 {
@@ -46,17 +47,27 @@ class TrackController extends Controller
         return $tracks;
     }
 
-    public function getOne(Request $request)
+    public function get(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'uuid' => ['required', 'exists:tracks'],
-        ]);
+        $user = User::findOrFail($request->user_id);
+        $tracks = $user->tracks;
 
-        if ($validator->fails()) {
-            return response(['errors' => $validator->errors()->all()], 422);
+        if (!$tracks) {
+            return [];
         }
 
-        return Track::where('uuid', $request->uuid)->first();
+        return $tracks;
+    }
+
+    public function getOne(Request $request, $uuid)
+    {
+        $track = Track::where('uuid', $uuid)->first();
+
+        if (!$track) {
+            return response(['errors' => ['Track not found.']], 404);
+        }
+
+        return $track;
     }
 
     public function update(Request $request)
