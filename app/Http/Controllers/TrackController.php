@@ -50,11 +50,8 @@ class TrackController extends Controller
     public function get(Request $request)
     {
         $user = User::findOrFail($request->user_id);
-        $tracks = $user->tracks;
 
-        if (!$tracks) {
-            return [];
-        }
+        $tracks = $user->tracks;
 
         return $tracks;
     }
