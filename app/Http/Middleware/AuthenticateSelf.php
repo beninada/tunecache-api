@@ -19,7 +19,7 @@ class AuthenticateSelf
         $loggedInUser = Auth::user();
 
         // Search for the "user_id" in either the route or query parameter
-        $requestedUserId = $request->route('user_id') || $request->query('user_id');
+        $requestedUserId = $request->user_id;
 
         if (!$loggedInUser || !$requestedUserId || $requestedUserId != $loggedInUser->id) {
             return response('Forbidden', 403);
