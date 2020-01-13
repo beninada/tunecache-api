@@ -23,6 +23,7 @@ class Track extends Model
         'description',
         'bpm',
         'key',
+        'duration'
     ];
 
     /**
