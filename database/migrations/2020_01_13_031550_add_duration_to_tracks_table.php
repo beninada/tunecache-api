@@ -14,7 +14,7 @@ class AddDurationToTracksTable extends Migration
     public function up()
     {
         Schema::table('tracks', function (Blueprint $table) {
-            $table->time('duration')->nullable();
+            $table->integer('duration')->nullable();
         });
     }
 
@@ -25,6 +25,8 @@ class AddDurationToTracksTable extends Migration
      */
     public function down()
     {
-
+        Schema::table('tracks', function (Blueprint $table) {
+            $table->dropColumn('duration');
+        });
     }
 }

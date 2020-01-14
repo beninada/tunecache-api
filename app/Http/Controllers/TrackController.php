@@ -76,6 +76,7 @@ class TrackController extends Controller
             'key' => ['string', Rule::in(Track::$musicalKeys)],
             'scale' => ['string', Rule::in(Track::$musicalScales)],
             'description' => ['string'],
+            'duration' => ['numeric']
         ]);
 
         if ($validator->fails()) {
@@ -90,6 +91,7 @@ class TrackController extends Controller
         $track->key = $request->key;
         $track->scale = $request->scale;
         $track->description = $request->description;
+        $track->duration = $request->duration;
         $track->save();
 
         return $track;
