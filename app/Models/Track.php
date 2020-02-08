@@ -68,6 +68,11 @@ class Track extends Model
         return $this->belongsTo('App\Models\User');
     }
 
+    public function playlists()
+    {
+        return $this->belongsToMany('App\Models\Playlist', 'playlist_tracks');
+    }
+
     public function getUrlAttribute()
     {
         return Storage::cloud()->url('track/'.$this->uuid);
