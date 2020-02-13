@@ -24,6 +24,10 @@ Route::prefix('v1')->group(function () {
     Route::get('tracks', 'TrackController@get');
     Route::get('tracks/{uuid}', 'TrackController@getOne');
 
+    Route::get('users/{user_id}/playlists', 'PlaylistController@getPlaylists');
+    Route::get('playlists/{id}', 'PlaylistController@getOne');
+    Route::get('playlists/{id}/tracks', 'PlaylistController@getTracks');
+
     /**
      * Authenticated routes
      */
@@ -43,5 +47,8 @@ Route::prefix('v1')->group(function () {
 
         Route::post('tracks/upload', 'TrackController@upload');
         Route::match(['put', 'patch'], 'tracks', 'TrackController@update');
+
+        Route::post('users/{user_id}/playlists', 'PlaylistController@create');
+        Route::post('playlists/{id}/tracks', 'PlaylistController@insertTrack');
     });
 });
