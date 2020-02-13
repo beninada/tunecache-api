@@ -15,8 +15,6 @@ class Playlist extends Model
         'title', 'description', 'user_id'
     ];
 
-    public $timestamps = false;
-
     /**
      * The relationships that should always be loaded.
      *
@@ -26,9 +24,9 @@ class Playlist extends Model
     // protected $with = ['users'];
 
     public static $createRules = [
-        'title' => ['required', 'string', 'max:225'],
-        'description' => ['required', 'string', 'max:225'],
-        /* 'user_id' => ['required', 'in:users'], */
+        'title' => ['required', 'string', 'max:100'],
+        'description' => ['required', 'string', 'max:5000'],
+        'user_id' => ['required', 'in:users'],
     ];
 
 
@@ -37,7 +35,8 @@ class Playlist extends Model
         return $this->belongsTo('App\Models\User');
     }
 
-    public function tracks(){
+    public function tracks()
+    {
         return $this->belongsToMany('App\Models\Track', 'playlist_tracks');
     }
 

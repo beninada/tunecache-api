@@ -53,46 +53,36 @@ class PlaylistController extends Controller
         }
     }
 
-    public function getPlaylists($user_id){
+    public function getPlaylists($user_id)
+    {
         return User::findOrFail($user_id)->playlists;
     }
 
-    public function getOne($id){
-
-        $playlist = Playlist::where('id', $id)->first();
-
-        if (!$playlist) {
-            return response(['errors' => ['Playlist not found.']], 404);
-        }
-
-        return $playlist;
+    public function getOne($id)
+    {
+        return Playlist::where('id', $id)->first();
     }
 
-    public function getTracks($id){
-        return Playlist::findOrFail($id)->tracks;
+    public function getTracks($id)
+    {
+        $playlist = Playlist::findOrFail($id);
+
+        return $playlist->tracks;
     }
 
-    protected function insertTrack(Request $request, $id){
-
+    protected function insertTrack(Request $request, $id)
+    {
         try {
 
             $playlist = Playlist::findOrFail($id);
 
-            if (!$playlist) {
-                return response(['errors' => ['Playlist not found.']], 404);
-            }
-
             $track = Track::findOrFail($request['track_id']);
-
-            if (!$track) {
-                return response(['errors' => ['Playlist not found.']], 404);
-            }
 
             return $playlist->tracks()->attach($track);
 
         } catch (\Exception $e) {
-            // \Log::error('Playlist creation failure: ' . $e);
-            return response(['errors' => [$e->getMessage()]], 500);
+            \Log::error('Playlist creation failure: ' . $e);
+            return response(['errors' => ['There was a problem adding a track to your playlist']], 500);
         }
     }
 

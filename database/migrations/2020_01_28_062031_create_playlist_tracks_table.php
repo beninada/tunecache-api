@@ -16,9 +16,10 @@ class CreatePlaylistTracksTable extends Migration
         Schema::create('playlists', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
-            $table->string('description')->nullable()->default('');
+            $table->string('description')->nullable();
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->timestamps();
         });
         Schema::create('playlist_tracks', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -36,7 +37,7 @@ class CreatePlaylistTracksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('playlists');
         Schema::dropIfExists('playlist_tracks');
+        Schema::dropIfExists('playlists');
     }
 }
