@@ -26,7 +26,7 @@ class Playlist extends Model
     public static $createRules = [
         'title' => ['required', 'string', 'max:100'],
         'description' => ['required', 'string', 'max:5000'],
-        'user_id' => ['required', 'in:users'],
+        'user_id' => ['required', 'exists:users,id'],
     ];
 
 
