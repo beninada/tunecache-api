@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Playlist extends Model
 {
-        /**
+    use Searchable;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -26,7 +29,7 @@ class Playlist extends Model
     public static $createRules = [
         'title' => ['required', 'string', 'max:100'],
         'description' => ['required', 'string', 'max:5000'],
-        'user_id' => ['required', 'in:users'],
+        'user_id' => ['required', 'exists:users,id'],
     ];
 
 
