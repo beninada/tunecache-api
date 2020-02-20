@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Playlist extends Model
 {
-        /**
+    use Searchable;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
