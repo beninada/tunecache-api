@@ -154,17 +154,18 @@ class UserController extends Controller
         $filename = $userId . '_' . time();
         $type = $request->type;
         $file = $request->file;
-        $path = $type . '/' . $filename;
-
+        $extension = $file->extension();
+        $path = $type . '/' . $filename . '.' . $extension;
+        
         $manager = new ImageManager(array('driver' => 'imagick'));
 
         switch ($type) {
             case 'customer_profile':
             case 'artist_profile':
-                $croppedImage = $manager->make($file->getRealPath())->fit(800);
+                $croppedImage = $manager->make($file->getRealPath())->fit(800, 800);
                 break;
             case 'artist_banner':
-                $croppedImage = $manager->make($file->getRealPath())->fit(1500, 500);
+                $croppedImage = $manager->make($file->getRealPath())->fit(800, 800);
                 break;
             default:
         }
@@ -173,7 +174,8 @@ class UserController extends Controller
 
         // upload the image to s3
         try {
-            Storage::disk('s3_images')->put($path, $croppedImage);
+            $s3 = Storage::disk('s3_images');
+            $s3->put($path, $croppedImage);
             $url = Storage::cloud()->url($path);
         } catch (\Exception $e) {
             \Log::error('S3 upload exception: ' . $e);
@@ -183,13 +185,13 @@ class UserController extends Controller
         // update profile table with image url
         switch ($type) {
             case 'customer_profile':
-                $this->updateArtistProfile($userId, ['image' => $url]);
+                User::where('id', $userId)->update(['profile_image' => $url]);
                 break;
             case 'artist_profile':
-                $this->updateCustomerProfile($userId, ['image' => $url]);
+                User::where('id', $userId)->update(['profile_image' => $url]);
                 break;
             case 'artist_banner':
-                $this->updateArtistProfile($userId, ['banner_image' => $url]);
+                User::where('id', $userId)->update(['profile_image' => $url]);
                 break;
             default:
         }
