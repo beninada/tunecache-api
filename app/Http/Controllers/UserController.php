@@ -176,7 +176,8 @@ class UserController extends Controller
         try {
             $s3 = Storage::disk('s3_images');
             $s3->put($path, $croppedImage);
-            $url = Storage::cloud()->url($path);
+            Storage::cloud()->url($path);
+            $url = 'https://tunecache-images-dev.s3-us-west-2.amazonaws.com/' . $path;
         } catch (\Exception $e) {
             \Log::error('S3 upload exception: ' . $e);
             throw $e;
