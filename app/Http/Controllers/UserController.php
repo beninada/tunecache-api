@@ -156,7 +156,7 @@ class UserController extends Controller
         $file = $request->file;
         $extension = $file->extension();
         $path = $type . '/' . $filename . '.' . $extension;
-        
+
         $manager = new ImageManager(array('driver' => 'imagick'));
 
         switch ($type) {
@@ -165,7 +165,7 @@ class UserController extends Controller
                 $croppedImage = $manager->make($file->getRealPath())->fit(800, 800);
                 break;
             case 'artist_banner':
-                $croppedImage = $manager->make($file->getRealPath())->fit(800, 800);
+                $croppedImage = $manager->make($file->getRealPath())->fit(1500, 500);
                 break;
             default:
         }
@@ -174,10 +174,8 @@ class UserController extends Controller
 
         // upload the image to s3
         try {
-            $s3 = Storage::disk('s3_images');
-            $s3->put($path, $croppedImage);
-            Storage::cloud()->url($path);
-            $url = 'https://tunecache-images-dev.s3-us-west-2.amazonaws.com/' . $path;
+            Storage::disk('s3_images')->put($path, $croppedImage);
+            $url = env('AWS_IMAGE_ROUTE_53') . $path;
         } catch (\Exception $e) {
             \Log::error('S3 upload exception: ' . $e);
             throw $e;
@@ -186,13 +184,13 @@ class UserController extends Controller
         // update profile table with image url
         switch ($type) {
             case 'customer_profile':
-                User::where('id', $userId)->update(['profile_image' => $url]);
+                $this->updateArtistProfile($userId, ['image' => $url]);
                 break;
             case 'artist_profile':
                 User::where('id', $userId)->update(['profile_image' => $url]);
                 break;
             case 'artist_banner':
-                User::where('id', $userId)->update(['profile_image' => $url]);
+                $this->updateArtistProfile($userId, ['banner_image' => $url]);
                 break;
             default:
         }

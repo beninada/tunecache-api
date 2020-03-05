@@ -43,7 +43,7 @@ Route::prefix('v1')->group(function () {
         Route::match(['put', 'patch'], 'users/{user_id}', 'UserController@update');
         Route::match(['put', 'patch'], 'users/customers/{user_id}/profile', 'UserController@updateCustomerProfile');
         Route::match(['put', 'patch'], 'users/artists/{user_id}/profile', 'UserController@updateArtistProfile');
-        Route::post('users/{user_id}/profile-image', 'UserController@uploadImage');
+        Route::post('users/{user_id}/images', 'UserController@uploadImage');
 
         Route::post('tracks/upload', 'TrackController@upload');
         Route::match(['put', 'patch'], 'tracks', 'TrackController@update');
