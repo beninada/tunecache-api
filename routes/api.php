@@ -47,6 +47,7 @@ Route::prefix('v1')->group(function () {
 
         Route::post('tracks/upload', 'TrackController@upload');
         Route::match(['put', 'patch'], 'tracks', 'TrackController@update');
+        Route::post('tracks/{id}/cover-art', 'TrackController@uploadTrackArtwork');
 
         Route::post('users/{user_id}/playlists', 'PlaylistController@create');
         Route::post('playlists/{id}/tracks', 'PlaylistController@insertTrack');

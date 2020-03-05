@@ -64,6 +64,15 @@ return [
             'url' => env('AWS_DEFAULT_CDN_URL'),
         ],
 
+        's3_cover' => [
+            'driver' => 's3',
+            'key' => env('AWS_S3_ADMIN_ACCESS_KEY_ID'),
+            'secret' => env('AWS_S3_ADMIN_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('AWS_TRACK_COVER_BUCKET'),
+            'url' => env('AWS_TRACK_COVER_CDN_URL'), 
+        ],
+
         's3_images' => [
             'driver' => 's3',
             'key' => env('AWS_S3_ADMIN_ACCESS_KEY_ID'),
