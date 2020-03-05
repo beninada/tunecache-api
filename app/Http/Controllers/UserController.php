@@ -154,14 +154,15 @@ class UserController extends Controller
         $filename = $userId . '_' . time();
         $type = $request->type;
         $file = $request->file;
-        $path = $type . '/' . $filename;
+        $extension = $file->extension();
+        $path = $type . '/' . $filename . '.' . $extension;
 
         $manager = new ImageManager(array('driver' => 'imagick'));
 
         switch ($type) {
             case 'customer_profile':
             case 'artist_profile':
-                $croppedImage = $manager->make($file->getRealPath())->fit(800);
+                $croppedImage = $manager->make($file->getRealPath())->fit(800, 800);
                 break;
             case 'artist_banner':
                 $croppedImage = $manager->make($file->getRealPath())->fit(1500, 500);
@@ -174,7 +175,7 @@ class UserController extends Controller
         // upload the image to s3
         try {
             Storage::disk('s3_images')->put($path, $croppedImage);
-            $url = Storage::cloud()->url($path);
+            $url = env('AWS_IMAGE_ROUTE_53') . $path;
         } catch (\Exception $e) {
             \Log::error('S3 upload exception: ' . $e);
             throw $e;
@@ -186,7 +187,7 @@ class UserController extends Controller
                 $this->updateArtistProfile($userId, ['image' => $url]);
                 break;
             case 'artist_profile':
-                $this->updateCustomerProfile($userId, ['image' => $url]);
+                User::where('id', $userId)->update(['profile_image' => $url]);
                 break;
             case 'artist_banner':
                 $this->updateArtistProfile($userId, ['banner_image' => $url]);
