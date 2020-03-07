@@ -101,7 +101,6 @@ class TrackController extends Controller
 
     public function uploadTrackArtwork(Request $request, $track_id)
     {
-
         $validator = Validator::make($request->all(), [
             'file' => ['required', 'max:10240', 'mimes:jpeg,jpg,png'],
             'user_id' => ['required', 'exists:users,id'],
@@ -116,7 +115,7 @@ class TrackController extends Controller
         $loggedInUser = Auth::user();
 
         // filename is the user's id concatenated w/ timestamp in folder e.g. dev-images/customer-profile/
-        $filename = $loggedInUser->id . '_' . $track_id . '_' . time();        
+        $filename = $loggedInUser->id . '_' . $track_id . '_' . time();
         $file = $request->file;
         $extension = $file->extension();
         $path = $filename . '.' . $extension;

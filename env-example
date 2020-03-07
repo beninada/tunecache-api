@@ -46,6 +46,9 @@ AWS_IMAGE_BUCKET=tunecache-images-dev
 AWS_IMAGE_CDN_URL=https://cdn-dev.tunecache.com/images
 AWS_TRACK_BUCKET=tunecache-tracks-dev
 AWS_TRACK_CDN_URL=https://cdn-dev.tunecache.com/tracks
+AWS_TRACK_COVER_BUCKET=track-cover-image-dev
+AWS_TRACK_COVER_CDN_URL=https://cdn-dev.tunecache.com/artworks
+AWS_TRACK_COVER_ROUTE_53=https://track-cover-image-dev.s3-us-west-2.amazonaws.com/
 
 PUSHER_APP_ID=
 PUSHER_APP_KEY=
