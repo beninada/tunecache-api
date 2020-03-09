@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use App\Models\Track;
 use App\Models\User;
+use Intervention\Image\ImageManager;
 
 class TrackController extends Controller
 {
@@ -95,5 +97,44 @@ class TrackController extends Controller
         $track->save();
 
         return $track;
+    }
+
+    public function uploadTrackArtwork(Request $request, $track_id)
+    {
+        $validator = Validator::make($request->all(), [
+            'file' => ['required', 'max:10240', 'mimes:jpeg,jpg,png'],
+            'user_id' => ['required', 'exists:users,id'],
+            'track_id' => ['required', 'exists:tracks,id'],
+        ]);
+
+        if ($validator->fails()) {
+            return response(['errors' => $validator->errors()->all()], 422);
+        }
+
+        // get the logged in user
+        $loggedInUser = Auth::user();
+
+        // filename is the user's id concatenated w/ timestamp in folder e.g. dev-images/customer-profile/
+        $filename = $loggedInUser->id . '_' . $track_id . '_' . time();
+        $file = $request->file;
+        $extension = $file->extension();
+        $path = $filename . '.' . $extension;
+
+        $manager = new ImageManager(array('driver' => 'imagick'));
+
+        $croppedImage = $manager->make($file->getRealPath())->fit(800, 800);
+
+        $croppedImage->encode();
+
+        // upload the image to s3
+        try {
+            Storage::disk('s3_cover')->put($path, $croppedImage);
+            $url = env('AWS_TRACK_COVER_ROUTE_53') . $path;
+        } catch (\Exception $e) {
+            \Log::error('S3 upload exception: ' . $e);
+            throw $e;
+        }
+
+        return Track::where('id', $track_id)->update(['cover_image' => $url]);
     }
 }
