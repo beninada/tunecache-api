@@ -1,4 +1,4 @@
 parameters:
-    tasks:
-        phpcsfixer2:
-            config: .php_cs
+  tasks:
+    phpcsfixer2:
+      config: .php_cs

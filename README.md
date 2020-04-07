@@ -32,6 +32,8 @@ This project uses [phpcsfixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) for
 composer format
 ```
 
+This project also uses [EditorConfig](https://editorconfig.org/) to help maintain consistent coding styles across editors. Install the [VS Code extension](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig) or a similar extension if you are using a different editor.
+
 ## Running
 
 To run the API
