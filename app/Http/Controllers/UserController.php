@@ -106,7 +106,7 @@ class UserController extends Controller
 
         // make sure this user has a customer profile
         if (!$loggedInUser->hasRole('customer')) {
-            return response (['errors' => ['This user does not have a customer profile']], 422);
+            return response(['errors' => ['This user does not have a customer profile']], 422);
         }
 
         // update user profile fields
@@ -129,7 +129,7 @@ class UserController extends Controller
 
         // make sure this user has an artist profile
         if (!$loggedInUser->hasRole('artist')) {
-            return response (['errors' => ['This user does not have a artist profile']], 422);
+            return response(['errors' => ['This user does not have a artist profile']], 422);
         }
 
         // update user profile fields

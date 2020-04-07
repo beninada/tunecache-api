@@ -10,7 +10,7 @@ use App\Models\Track;
 
 class PlaylistController extends Controller
 {
-        /*
+    /*
     |--------------------------------------------------------------------------
     | Playlist Controller
     |--------------------------------------------------------------------------
@@ -29,7 +29,6 @@ class PlaylistController extends Controller
     protected function create(Request $request, $user_id)
     {
         try {
-
             $data = $request->all();
 
             $validator = $this->validator($data);
@@ -46,7 +45,6 @@ class PlaylistController extends Controller
 
             $playlist->save();
             return $playlist;
-
         } catch (\Exception $e) {
             \Log::error('Playlist creation failure: ' . $e);
             return response(['errors' => [$e->getMessage()]], 500);
@@ -73,17 +71,14 @@ class PlaylistController extends Controller
     protected function insertTrack(Request $request, $id)
     {
         try {
-
             $playlist = Playlist::findOrFail($id);
 
             $track = Track::findOrFail($request['track_id']);
 
             return $playlist->tracks()->attach($track);
-
         } catch (\Exception $e) {
             \Log::error('Playlist creation failure: ' . $e);
             return response(['errors' => ['There was a problem adding a track to your playlist']], 500);
         }
     }
-
 }

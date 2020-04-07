@@ -42,5 +42,4 @@ class Playlist extends Model
     {
         return $this->belongsToMany('App\Models\Track', 'playlist_tracks');
     }
-
 }

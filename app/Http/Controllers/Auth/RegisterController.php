@@ -56,7 +56,7 @@ class RegisterController extends Controller
 
             if ($data['role'] == 'artist') {
                 $profile = ArtistProfile::create($data);
-            } else if ($data['role'] == 'customer') {
+            } elseif ($data['role'] == 'customer') {
                 $profile = CustomerProfile::create($data);
             }
 
