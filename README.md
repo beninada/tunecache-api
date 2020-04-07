@@ -27,6 +27,11 @@ Add the following to your hosts file (usually located at /etc/hosts) to make the
 127.0.0.1   tunecache.test
 ```
 
+This project uses [phpcsfixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) for code formatting and best practices. There is a git pre-commit hook that will prevent commits from completing if code does not pass linting. To automatically format your code, run:
+```
+composer format
+```
+
 ## Running
 
 To run the API
