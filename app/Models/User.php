@@ -78,4 +78,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Playlist');
     }
+
+    public function rights()
+    {
+        return $this->hasMany('App\Models\TrackRights');
+    }
 }

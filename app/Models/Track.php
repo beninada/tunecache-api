@@ -53,6 +53,11 @@ class Track extends Model
         'minor',
     ];
 
+    public function rights()
+    {
+        return $this->hasMany('App\Models\TrackRights');
+    }
+
     public function genres()
     {
         return $this->belongsToMany('App\Models\Genre', 'track_genre');

@@ -51,5 +51,8 @@ Route::prefix('v1')->group(function () {
 
         Route::post('users/{user_id}/playlists', 'PlaylistController@create');
         Route::post('playlists/{id}/tracks', 'PlaylistController@insertTrack');
+
+        Route::get('tracks/{id}/rights', 'TrackController@rights');
+        Route::post('tracks/{id}/rights', 'TrackController@setRights');
     });
 });

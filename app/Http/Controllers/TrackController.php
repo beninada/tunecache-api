@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use App\Models\Track;
 use App\Models\User;
+use App\Models\Rights;
+use App\Models\TrackRights;
 use Intervention\Image\ImageManager;
 
 class TrackController extends Controller
@@ -136,5 +138,28 @@ class TrackController extends Controller
         }
 
         return Track::where('id', $track_id)->update(['cover_image' => $url]);
+    }
+
+    public function rights(Request $request, $id)
+    {
+        return Track::findOrFail($id)->rights;
+    }
+
+    protected function setRights(Request $request, $id)
+    {
+        try {
+            $track_rights = TrackRights::create([
+                'user_id' => $request['user_id'],
+                'track_id' => $id,
+                'right_id' => $request["right_id"],
+            ]);
+
+            $track_rights->save();
+
+            return $track_rights;
+        } catch (\Exception $e) {
+            \Log::error('Setting track rights failure: ' . $e);
+            return response(['errors' => ['There was a problem adding a rights to the track.']], 500);
+        }
     }
 }

@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use Database\Seeds\RoleSeeder;
 use Database\Seeds\GenreSeeder;
 use Database\Seeds\CharacterSeeder;
+use Database\Seeds\RightsSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(GenreSeeder::class);
         $this->call(CharacterSeeder::class);
+        $this->call(RightsSeeder::class);
     }
 }
